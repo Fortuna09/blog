@@ -39,4 +39,20 @@ public class UserService {
         return repository.save(user);
     }
 
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
+    }
+
+    public User update(Integer id, User user) {
+
+        User editedUser = repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+        editedUser.setName(user.getName());
+        editedUser.setUsername(user.getUsername());
+        editedUser.setEmail(user.getEmail());
+        editedUser.setWebsite(user.getWebsite());
+        editedUser.setPhone(user.getPhone());
+        return repository.save(editedUser);
+    }
+
 }

@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,6 +57,27 @@ public class UserServiceTest {
                 service.findById(2));
     }
 
-    // TODO: Implement test cases for getAllUsers
+    @Test
+    @DisplayName("#getAllUsers > When there are no registered users > Returns an empty list")
+    void getAllUsersWhenThereAreNoRegisteredUsersReturnsAnEmptyList(){
+        List<User> response = service.getAllUsers();
+        Assertions.assertTrue(response.isEmpty());
+    }
+    @Test
+    @DisplayName("#getAllUsers > When there are registered users > Returns the list of users")
+    void getAllUsersWhenThereAreRegisteredUsersReturnsTheListOfUsers(){
+        when(service.getAllUsers()).thenReturn(List.of(User.builder()
+                .id(1)
+                .name("Leandro")
+                .username("leandroka")
+                .build()));
+        List<User> response = service.getAllUsers();
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(1,response.get(0).getId()),
+                () -> Assertions.assertEquals("Leandro",response.get(0).getName()),
+                () -> Assertions.assertEquals("leandroka",response.get(0).getUsername())
+
+        );
+    }
 
 }
